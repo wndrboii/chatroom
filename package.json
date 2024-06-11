@@ -1,0 +1,26 @@
+{
+  "name": "chatroom",
+  "version": "1.0.0",
+  "description": "realtim chat app ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wndrboii/chatroom.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wndrboii/chatroom/issues"
+  },
+  "homepage": "https://github.com/wndrboii/chatroom#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}

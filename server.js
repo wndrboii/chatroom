@@ -19,7 +19,7 @@ io.on('connection', socket => {
     //io.emit(); //all of the clients
 
     //run when client disconnects
-    socket.on('disconnects', () => {
+    socket.on('disconnect', () => {
         io.emit('message', 'A user just left the ChatRoom');
     })
 });

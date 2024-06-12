@@ -13,7 +13,15 @@ const PORT = 3000 || process.env.PORT;
 
 //run when client connects
 io.on('connection', socket => {
-    console.log('New WS Connection...');
+    socket.emit('message', 'Welcome to ChatRoom');// singl client
+    //broadcast when user connect
+    socket.broadcast.emit('message', 'A user just join the ChatRoom');//all of the clients (!just connetct)
+    //io.emit(); //all of the clients
+
+    //run when client disconnects
+    socket.on('disconnects', () => {
+        io.emit('message', 'A user just left the ChatRoom');
+    })
 });
 
 server.listen(PORT, () => console.log('Server running on port ${PORT}'));

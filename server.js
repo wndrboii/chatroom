@@ -21,7 +21,12 @@ io.on('connection', socket => {
     //run when client disconnects
     socket.on('disconnect', () => {
         io.emit('message', 'A user just left the ChatRoom');
-    })
+    });
+
+    //listen for chatMessage
+    socket.on('chatMessage', (msg) => {
+        io.emit('message', msg);  
+    });
 });
 
-server.listen(PORT, () => console.log('Server running on port ${PORT}'));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,31 +1,42 @@
-//database section
-const users = [];
-//join user to chat
-function userJoin(id, username,room){
-    const user = {id, username, room};
+const { db } = require('./firebaseConfig');
+const { ref, set, get, remove, query, orderByChild, equalTo } = require("firebase/database");
 
-    users.push(user);
+// Join user to chat
+async function userJoin(id, username, room) {
+    const userRef = ref(db, `users/${id}`);
+    const user = { id, username, room };
+    await set(userRef, user);
     return user;
 }
 
-//get the current user
-function getCurrentUser(id){
-    return users.find(user => user.id === id);
+// Get the current user
+async function getCurrentUser(id) {
+    const userRef = ref(db, `users/${id}`);
+    const data = await get(userRef);
+    return data.exists() ? data.val() : null;
 }
 
-//useer leave chat
-function userLeave(id){
-    const index = users.findIndex(user => user.id === id);
-
-    if(index !== -1){
-        return users.splice(index, 1)[0];
-
+// User leave chat
+async function userLeave(id) {
+    const userRef = ref(db, `users/${id}`);
+    const data = await get(userRef);
+    const user = data.exists() ? data.val() : null;
+    if (user) {
+        await remove(userRef);
+        return user;
     }
 }
 
-//get room users
-function getRoomUsers(room) {
-    return users.filter(user => user.room === room);
+// Get room users
+async function getRoomUsers(room) {
+    const usersRef = ref(db, 'users');
+    const roomQuery = query(usersRef, orderByChild('room'), equalTo(room));
+    const data = await get(roomQuery);
+    const users = [];
+    data.forEach(child => {
+        users.push(child.val());
+    });
+    return users;
 }
 
 module.exports = {
